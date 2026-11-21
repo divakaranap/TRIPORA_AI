@@ -24,7 +24,11 @@ export const RegisterPage: React.FC = () => {
       navigate('/dashboard');
     } catch (err: any) {
       console.error('Registration error:', err);
-      setErrorMsg(err.response?.data?.detail || 'Failed to create account. Please check your details.');
+      if (!err.response) {
+        setErrorMsg('Unable to connect to backend server. If using Render free tier, the backend may take ~40s to wake up.');
+      } else {
+        setErrorMsg(err.response?.data?.detail || 'Failed to create account. Please check your details.');
+      }
     } finally {
       setIsLoading(false);
     }

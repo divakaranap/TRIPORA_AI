@@ -22,7 +22,11 @@ export const LoginPage: React.FC = () => {
       navigate('/dashboard');
     } catch (err: any) {
       console.error('Login error:', err);
-      setErrorMsg(err.response?.data?.detail || 'Incorrect email or password.');
+      if (!err.response) {
+        setErrorMsg('Unable to connect to backend server. If using Render free tier, the backend may take ~40s to wake up.');
+      } else {
+        setErrorMsg(err.response?.data?.detail || 'Incorrect email or password.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -33,8 +37,12 @@ export const LoginPage: React.FC = () => {
     try {
       await loginAsDemo();
       navigate('/dashboard');
-    } catch (err) {
-      setErrorMsg('Failed to log in with demo credentials.');
+    } catch (err: any) {
+      if (!err?.response) {
+        setErrorMsg('Unable to connect to backend server. If using Render free tier, the backend may take ~40s to wake up.');
+      } else {
+        setErrorMsg('Failed to log in with demo credentials.');
+      }
     } finally {
       setIsLoading(false);
     }

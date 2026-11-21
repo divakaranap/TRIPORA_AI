@@ -3,6 +3,7 @@ from app.core.config import settings
 
 router = APIRouter(prefix="/health", tags=["Health & System"])
 
+@router.get("")
 @router.get("/")
 def get_health():
     """System health check and provider readiness report."""
